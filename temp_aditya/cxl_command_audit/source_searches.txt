@@ -1,0 +1,297 @@
+=== Linux command table ===
+28:	for ((cmd) = &cxl_mem_commands[0];                                     \
+31:#define CXL_CMD(_id, sin, sout, _flags)                                        \
+49:static struct cxl_mem_command cxl_mem_commands[CXL_MEM_COMMAND_ID_MAX] = {
+50:	CXL_CMD(IDENTIFY, 0, 0x43, CXL_CMD_FLAG_FORCE_ENABLE),
+52:	CXL_CMD(RAW, CXL_VARIABLE_PAYLOAD, CXL_VARIABLE_PAYLOAD, 0),
+54:	CXL_CMD(GET_SUPPORTED_LOGS, 0, CXL_VARIABLE_PAYLOAD, CXL_CMD_FLAG_FORCE_ENABLE),
+55:	CXL_CMD(GET_FW_INFO, 0, 0x50, 0),
+56:	CXL_CMD(GET_PARTITION_INFO, 0, 0x20, 0),
+57:	CXL_CMD(GET_LSA, 0x8, CXL_VARIABLE_PAYLOAD, 0),
+58:	CXL_CMD(GET_HEALTH_INFO, 0, 0x12, 0),
+59:	CXL_CMD(GET_LOG, 0x18, CXL_VARIABLE_PAYLOAD, CXL_CMD_FLAG_FORCE_ENABLE),
+60:	CXL_CMD(GET_LOG_CAPS, 0x10, 0x4, 0),
+61:	CXL_CMD(CLEAR_LOG, 0x10, 0, 0),
+62:	CXL_CMD(GET_SUP_LOG_SUBLIST, 0x2, CXL_VARIABLE_PAYLOAD, 0),
+63:	CXL_CMD(SET_PARTITION_INFO, 0x0a, 0, 0),
+64:	CXL_CMD(SET_LSA, CXL_VARIABLE_PAYLOAD, 0, 0),
+65:	CXL_CMD(GET_ALERT_CONFIG, 0, 0x10, 0),
+66:	CXL_CMD(SET_ALERT_CONFIG, 0xc, 0, 0),
+67:	CXL_CMD(GET_SHUTDOWN_STATE, 0, 0x1, 0),
+68:	CXL_CMD(SET_SHUTDOWN_STATE, 0x1, 0, 0),
+69:	CXL_CMD(GET_SCAN_MEDIA_CAPS, 0x10, 0x4, 0),
+70:	CXL_CMD(GET_TIMESTAMP, 0, 0x8, 0),
+441:	struct cxl_mem_command *c = &cxl_mem_commands[send_cmd->id];
+
+=== UAPI command IDs and ioctl definitions ===
+20:#define CXL_MEM_QUERY_COMMANDS _IOR(0xCE, 1, struct cxl_mem_query_commands)
+21:#define CXL_MEM_SEND_COMMAND _IOWR(0xCE, 2, struct cxl_send_command)
+55:#define ___C(a, b) CXL_MEM_COMMAND_ID_##a
+70: *	[CXL_MEM_COMMAND_ID_INVALID] = { "Invalid Command" },
+71: *	[CXL_MEM_COMMAND_ID_IDENTIFY] = { "Identify Command" },
+73: *	[CXL_MEM_COMMAND_ID_MAX] = { "invalid / last command" },
+88: *	[CXL_MEM_COMMAND_ID_INVALID] = 0,
+89: *	[CXL_MEM_COMMAND_ID_IDENTIFY] = 0,
+
+=== CCI opcode definitions ===
+466:	CXL_MBOX_OP_INVALID		= 0x0000,
+467:	CXL_MBOX_OP_RAW			= CXL_MBOX_OP_INVALID,
+468:	CXL_MBOX_OP_GET_EVENT_RECORD	= 0x0100,
+469:	CXL_MBOX_OP_CLEAR_EVENT_RECORD	= 0x0101,
+470:	CXL_MBOX_OP_GET_EVT_INT_POLICY	= 0x0102,
+471:	CXL_MBOX_OP_SET_EVT_INT_POLICY	= 0x0103,
+472:	CXL_MBOX_OP_GET_FW_INFO		= 0x0200,
+473:	CXL_MBOX_OP_TRANSFER_FW		= 0x0201,
+474:	CXL_MBOX_OP_ACTIVATE_FW		= 0x0202,
+475:	CXL_MBOX_OP_GET_TIMESTAMP	= 0x0300,
+476:	CXL_MBOX_OP_SET_TIMESTAMP	= 0x0301,
+477:	CXL_MBOX_OP_GET_SUPPORTED_LOGS	= 0x0400,
+478:	CXL_MBOX_OP_GET_LOG		= 0x0401,
+479:	CXL_MBOX_OP_GET_LOG_CAPS	= 0x0402,
+480:	CXL_MBOX_OP_CLEAR_LOG           = 0x0403,
+481:	CXL_MBOX_OP_GET_SUP_LOG_SUBLIST = 0x0405,
+482:	CXL_MBOX_OP_GET_SUPPORTED_FEATURES	= 0x0500,
+483:	CXL_MBOX_OP_GET_FEATURE		= 0x0501,
+484:	CXL_MBOX_OP_SET_FEATURE		= 0x0502,
+485:	CXL_MBOX_OP_DO_MAINTENANCE	= 0x0600,
+486:	CXL_MBOX_OP_IDENTIFY		= 0x4000,
+487:	CXL_MBOX_OP_GET_PARTITION_INFO	= 0x4100,
+488:	CXL_MBOX_OP_SET_PARTITION_INFO	= 0x4101,
+489:	CXL_MBOX_OP_GET_LSA		= 0x4102,
+490:	CXL_MBOX_OP_SET_LSA		= 0x4103,
+491:	CXL_MBOX_OP_GET_HEALTH_INFO	= 0x4200,
+492:	CXL_MBOX_OP_GET_ALERT_CONFIG	= 0x4201,
+493:	CXL_MBOX_OP_SET_ALERT_CONFIG	= 0x4202,
+494:	CXL_MBOX_OP_GET_SHUTDOWN_STATE	= 0x4203,
+495:	CXL_MBOX_OP_SET_SHUTDOWN_STATE	= 0x4204,
+496:	CXL_MBOX_OP_GET_POISON		= 0x4300,
+497:	CXL_MBOX_OP_INJECT_POISON	= 0x4301,
+498:	CXL_MBOX_OP_CLEAR_POISON	= 0x4302,
+499:	CXL_MBOX_OP_GET_SCAN_MEDIA_CAPS	= 0x4303,
+500:	CXL_MBOX_OP_SCAN_MEDIA		= 0x4304,
+501:	CXL_MBOX_OP_GET_SCAN_MEDIA	= 0x4305,
+502:	CXL_MBOX_OP_SANITIZE		= 0x4400,
+503:	CXL_MBOX_OP_SECURE_ERASE	= 0x4401,
+504:	CXL_MBOX_OP_GET_SECURITY_STATE	= 0x4500,
+505:	CXL_MBOX_OP_SET_PASSPHRASE	= 0x4501,
+506:	CXL_MBOX_OP_DISABLE_PASSPHRASE	= 0x4502,
+507:	CXL_MBOX_OP_UNLOCK		= 0x4503,
+508:	CXL_MBOX_OP_FREEZE_SECURITY	= 0x4504,
+509:	CXL_MBOX_OP_PASSPHRASE_SECURE_ERASE	= 0x4505,
+510:	CXL_MBOX_OP_MAX			= 0x10000
+
+=== Kernel userspace submission path ===
+574: * handle_mailbox_cmd_from_user() - Dispatch a mailbox command for userspace.
+575- * @cxl_mbox: The mailbox context for the operation.
+576- * @mbox_cmd: The validated mailbox command.
+577- * @out_payload: Pointer to userspace's output payload.
+578- * @size_out: (Input) Max payload size to copy out.
+579- *            (Output) Payload size hardware generated.
+580- * @retval: Hardware generated return code from the operation.
+581- *
+582- * Return:
+583- *  * %0	- Mailbox transaction succeeded. This implies the mailbox
+584- *		  protocol completed successfully not that the operation itself
+585- *		  was successful.
+586- *  * %-ENOMEM  - Couldn't allocate a bounce buffer.
+587- *  * %-EFAULT	- Something happened with copy_to/from_user.
+588- *  * %-EINTR	- Mailbox acquisition interrupted.
+589- *  * %-EXXX	- Transaction level failures.
+590- *
+591- * Dispatches a mailbox command on behalf of a userspace request.
+592- * The output payload is copied to userspace.
+593- *
+594- * See cxl_send_cmd().
+595- */
+596:static int handle_mailbox_cmd_from_user(struct cxl_mailbox *cxl_mbox,
+597-					struct cxl_mbox_cmd *mbox_cmd,
+598-					u64 out_payload, s32 *size_out,
+599-					u32 *retval)
+600-{
+601-	struct device *dev = cxl_mbox->host;
+602-	int rc;
+603-
+604-	dev_dbg(dev,
+605-		"Submitting %s command for user\n"
+606-		"\topcode: %x\n"
+607-		"\tsize: %zx\n",
+608-		cxl_mem_opcode_to_name(mbox_cmd->opcode),
+609-		mbox_cmd->opcode, mbox_cmd->size_in);
+610-
+611-	rc = cxl_mbox->mbox_send(cxl_mbox, mbox_cmd);
+612-	if (rc)
+613-		goto out;
+614-
+615-	/*
+616-	 * @size_out contains the max size that's allowed to be written back out
+617-	 * to userspace. While the payload may have written more output than
+618-	 * this it will have to be ignored.
+619-	 */
+620-	if (mbox_cmd->size_out) {
+621-		dev_WARN_ONCE(dev, mbox_cmd->size_out > *size_out,
+622-			      "Invalid return size\n");
+623-		if (copy_to_user(u64_to_user_ptr(out_payload),
+624-				 mbox_cmd->payload_out, mbox_cmd->size_out)) {
+625-			rc = -EFAULT;
+626-			goto out;
+627-		}
+628-	}
+629-
+630-	*size_out = mbox_cmd->size_out;
+631-	*retval = mbox_cmd->return_code;
+632-
+633-out:
+634-	cxl_mbox_cmd_dtor(mbox_cmd);
+635-	return rc;
+636-}
+637-
+638-int cxl_send_cmd(struct cxl_mailbox *cxl_mbox, struct cxl_send_command __user *s)
+639-{
+640-	struct device *dev = cxl_mbox->host;
+641-	struct cxl_send_command send;
+642-	struct cxl_mbox_cmd mbox_cmd;
+643-	int rc;
+644-
+645-	dev_dbg(dev, "Send IOCTL\n");
+646-
+647-	if (copy_from_user(&send, s, sizeof(send)))
+648-		return -EFAULT;
+649-
+650-	rc = cxl_validate_cmd_from_user(&mbox_cmd, cxl_mbox, &send);
+651-	if (rc)
+652-		return rc;
+653-
+654:	rc = handle_mailbox_cmd_from_user(cxl_mbox, &mbox_cmd, send.out.payload,
+655-					  &send.out.size, &send.retval);
+656-	if (rc)
+657-		return rc;
+658-
+659-	if (copy_to_user(s, &send, sizeof(send)))
+660-		return -EFAULT;
+661-
+662-	return 0;
+663-}
+664-
+665-static int cxl_xfer_log(struct cxl_memdev_state *mds, uuid_t *uuid,
+666-			u32 *size, u8 *out)
+667-{
+668-	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
+669-	u32 remaining = *size;
+670-	u32 offset = 0;
+671-
+672-	while (remaining) {
+673-		u32 xfer_size = min_t(u32, remaining, cxl_mbox->payload_size);
+674-		struct cxl_mbox_cmd mbox_cmd;
+675-		struct cxl_mbox_get_log log;
+676-		int rc;
+677-
+678-		log = (struct cxl_mbox_get_log) {
+679-			.uuid = *uuid,
+680-			.offset = cpu_to_le32(offset),
+681-			.length = cpu_to_le32(xfer_size),
+682-		};
+683-
+684-		mbox_cmd = (struct cxl_mbox_cmd) {
+685-			.opcode = CXL_MBOX_OP_GET_LOG,
+686-			.size_in = sizeof(log),
+687-			.payload_in = &log,
+688-			.size_out = xfer_size,
+689-			.payload_out = out,
+690-		};
+691-
+692-		rc = cxl_internal_send_cmd(cxl_mbox, &mbox_cmd);
+693-
+694-		/*
+695-		 * The output payload length that indicates the number
+696-		 * of valid bytes can be smaller than the Log buffer
+697-		 * size.
+698-		 */
+699-		if (rc == -EIO && mbox_cmd.size_out < xfer_size) {
+700-			offset += mbox_cmd.size_out;
+701-			break;
+702-		}
+703-
+704-		if (rc < 0)
+705-			return rc;
+706-
+707-		out += xfer_size;
+708-		remaining -= xfer_size;
+709-		offset += xfer_size;
+710-	}
+711-
+712-	*size = offset;
+713-
+714-	return 0;
+715-}
+716-
+717-static int check_features_opcodes(u16 opcode, int *ro_cmds, int *wr_cmds)
+718-{
+719-	switch (opcode) {
+720-	case CXL_MBOX_OP_GET_SUPPORTED_FEATURES:
+721-	case CXL_MBOX_OP_GET_FEATURE:
+722-		(*ro_cmds)++;
+723-		return 1;
+724-	case CXL_MBOX_OP_SET_FEATURE:
+
+=== QEMU CXL source references ===
+/home/aditya/qemu/hw/cxl/meson.build:5:                   'cxl-mailbox-utils.c',
+/home/aditya/qemu/hw/cxl/meson.build:9:                   'switch-mailbox-cci.c',
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:63:static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned size)
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:88:                                       cci->bg.opcode);
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:114:static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:133:static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:155:static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:177:        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:180:        mailbox_mem_writeq(cxl_dstate->mbox_reg_state64, offset, value);
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:262:static const MemoryRegionOps mailbox_ops = {
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:263:    .read = mailbox_reg_read,
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:264:    .write = mailbox_reg_write,
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:318:    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cci,
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:319:                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:331:                                &cxl_dstate->mailbox);
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:359:static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate, int msi_n)
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:403:    mailbox_reg_init_common(cxl_dstate, msi_n);
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:409:    cxl_initialize_mailbox_t3(&ct3d->cci, DEVICE(ct3d),
+/home/aditya/qemu/hw/cxl/cxl-device-utils.c:428:    mailbox_reg_init_common(cxl_dstate, msi_n);
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:2: * CXL Utility library for mailbox interface
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:17:#include "hw/cxl/cxl_mailbox.h"
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:51: *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:67:        #define IS_IDENTIFY   0x1
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:86:        #define GET_LOG       0x1
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:93:    IDENTIFY    = 0x40,
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:96:        #define GET_PARTITION_INFO     0x0
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:97:        #define GET_LSA       0x2
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:98:        #define SET_LSA       0x3
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:100:        #define GET_ALERT_CONFIG 0x1
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:101:        #define SET_ALERT_CONFIG 0x2
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:121:        #define IDENTIFY_SWITCH_DEVICE      0x0
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:835:        uint16_t opcode;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:846:    bg_op_status->opcode = cci->bg.opcode;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:864:    int bg_set = cci->bg.opcode >> 8;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:865:    int bg_cmd = cci->bg.opcode & 0xff;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:1209:     * Only valid for there to be one entry per opcode, but the length + offset
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4465:    [LOGS][GET_LOG] = { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4484:    [IDENTIFY][MEMORY_DEVICE] = { "IDENTIFY_MEMORY_DEVICE",
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4486:    [CCLS][GET_PARTITION_INFO] = { "CCLS_GET_PARTITION_INFO",
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4488:    [CCLS][GET_LSA] = { "CCLS_GET_LSA", cmd_ccls_get_lsa, 8, 0 },
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4489:    [CCLS][SET_LSA] = { "CCLS_SET_LSA", cmd_ccls_set_lsa,
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4491:    [HEALTH_INFO_ALERTS][GET_ALERT_CONFIG] = {
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4492:        "HEALTH_INFO_ALERTS_GET_ALERT_CONFIG",
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4494:    [HEALTH_INFO_ALERTS][SET_ALERT_CONFIG] = {
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4495:        "HEALTH_INFO_ALERTS_SET_ALERT_CONFIG",
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4540:    [INFOSTAT][IS_IDENTIFY] = { "IDENTIFY", cmd_infostat_identify, 0, 0 },
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4550:    [LOGS][GET_LOG] = { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4551:    [PHYSICAL_SWITCH][IDENTIFY_SWITCH_DEVICE] = { "IDENTIFY_SWITCH_DEVICE",
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4605:    opcode_handler h;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4660:        cci->bg.opcode = (set << 8) | cmd;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4689:        switch (cci->bg.opcode) {
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4755:                log->opcode = (set << 8) | cmd;
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4822:void cxl_initialize_mailbox_swcci(CXLCCI *cci, DeviceState *intf,
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4831:void cxl_initialize_mailbox_t3(CXLCCI *cci, DeviceState *d, size_t payload_max)
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4847:    [INFOSTAT][IS_IDENTIFY] = { "IDENTIFY", cmd_infostat_identify, 0, 0 },
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4850:    [LOGS][GET_LOG] = { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4863:    [INFOSTAT][IS_IDENTIFY] = { "IDENTIFY", cmd_infostat_identify, 0,  0},
+/home/aditya/qemu/hw/cxl/cxl-mailbox-utils.c:4870:    [LOGS][GET_LOG] = { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
+/home/aditya/qemu/hw/cxl/switch-mailbox-cci.c:60:    cxl_initialize_mailbox_swcci(cswmb->cci, DEVICE(pci_dev),
+/home/aditya/qemu/hw/cxl/switch-mailbox-cci.c:108:static void cxl_switch_mailbox_cci_register(void)
+/home/aditya/qemu/hw/cxl/switch-mailbox-cci.c:112:type_init(cxl_switch_mailbox_cci_register);
